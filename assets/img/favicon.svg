@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8E2C41"/>
+      <stop offset="1" stop-color="#5D1B2B"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#g)"/>
+  <!-- shikhar silhouette -->
+  <path d="M32 9 L38 22 L36 22 L41 34 L23 34 L28 22 L26 22 Z" fill="#F1E4C3"/>
+  <circle cx="32" cy="6.5" r="2.2" fill="#E9B949"/>
+  <!-- plinth -->
+  <rect x="17" y="35" width="30" height="4" rx="1.4" fill="#E9B949"/>
+  <rect x="14" y="40" width="36" height="4" rx="1.4" fill="#F1E4C3"/>
+  <!-- ahimsa palm -->
+  <path d="M32 47c-3.4 0-6 2.3-6 5.6V58h12v-5.4c0-3.3-2.6-5.6-6-5.6z" fill="#F1E4C3"/>
+  <circle cx="32" cy="53.4" r="2.1" fill="#8E2C41"/>
+</svg>
