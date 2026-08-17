@@ -52,7 +52,7 @@ gold on the parikar and kalash.
 - **Ripples** on buttons, a **scroll-progress bar** (native CSS scroll-timeline where supported, JS otherwise), and a **mobile action dock** for call / directions / darshan / seva
 - **Lightbox** with thumbnail strip, keyboard arrows, swipe and Escape
 - **Navkar japa counter** — a 108-bead mala with a progress ring, stored only in the visitor's own browser
-- **Bilingual** — EN / ગુજરાતી toggle switches the navigation and schedule labels; deity names, mantras and the Sangh's name stay in Gujarati throughout
+- **Fully bilingual** — the EN / ગુજરાતી toggle translates *all* page content, not just the menu (see below)
 - **View Transitions** between pages where the browser supports them
 
 Everything degrades. Reveals and kinetic text only hide themselves once JS has
@@ -66,6 +66,7 @@ index.html … contact.html      the eight pages
 assets/css/style.css           the whole design system
 assets/js/data.js              ALL editable content: details, schedule, gallery,
                                reviews, festivals, sevas, tickers
+assets/js/i18n.js              every Gujarati translation, in one flat map
 assets/js/site.js              behaviour + shared chrome; no dependencies
 assets/img/                    web-sized images (max 1600px) + thumb/ (720×540)
 assets/img/favicon.svg         hand-drawn shikhar + ahimsa mark
@@ -82,6 +83,38 @@ The progress bar, mobile dock, lightbox and toast host are injected by
 `site.js` — they are not in the page source, so you never have to keep eight
 copies of them in sync. The header, nav and footer *are* in each page, for
 crawlability.
+
+## How the Gujarati translation works
+
+`assets/js/i18n.js` is a single flat map, keyed on the **English text exactly as
+it appears on the page**:
+
+```js
+'A derasar the neighbourhood grew around': 'એક દેરાસર, જેની આસપાસ પડોશ વસ્યું',
+```
+
+On switching language, `site.js` walks the DOM, reads each element's text, looks
+it up and swaps in the translation — caching the English so switching back is
+exact. Nothing in the HTML has to be marked up, and one entry covers every page
+the string appears on. It also means the JS-rendered blocks — the schedule, the
+parva timeline, the seva cards, the gallery captions — are translated by the same
+pass, with no extra work.
+
+Values may carry inline markup (`<strong>`, `<a>`, `<br>`). Icons, accordion
+chevrons and other text-free children are carried across automatically, so a
+translation never has to repeat icon markup. Elements already in Gujarati
+(`class="gu"`) and the paired `data-en` / `data-gu` spans in the nav are skipped.
+
+**To add or fix a translation**, edit `i18n.js`. To find the exact key for
+something, copy the visible English string with single spaces between words.
+Live strings generated in JS (the open/closed pill, the countdown, the japa
+hint) go through `t()` and are keyed in the same map.
+
+All eight pages currently switch with no English left behind. The Gujarati is
+human-authored, not machine-translated — but it has not been reviewed by a
+native speaker from the Sangh, and that review is worth doing before the site
+goes public. Attributed visitor quotes are deliberately left in the language
+they were written in.
 
 ## Running it
 

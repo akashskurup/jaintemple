@@ -146,7 +146,115 @@
     requestAnimationFrame(() => move(current));
   }
 
-  /* ---------- language & diya mode ------------------------------------ */
+  /* ==================================================================
+     LANGUAGE
+     Translations live in assets/js/i18n.js as a plain
+     { "english text": "ગુજરાતી" } map. Nothing in the HTML has to be
+     marked up: at switch time we walk the page, match each element's
+     normalised text against the map, and swap its innerHTML — caching
+     the English so switching back is exact. Because this runs after
+     the data-driven blocks are rendered, JS-generated content
+     (timings, festivals, seva cards, gallery captions) is covered too.
+     ================================================================== */
+  const GU = window.DERASAR_GU || {};
+  const en0 = new WeakMap();                       /* element -> English innerHTML */
+  const swapped = [];                              /* elements currently in Gujarati */
+  const norm = s => (s || '').replace(/\s+/g, ' ').trim();
+  const SEL = 'h1,h2,h3,h4,p,li,label,button,option,span,small,blockquote,figcaption,strong,em,td,th,a';
+  const keyScratch = document.createElement('div');
+
+  /* textContent swallows <br> entirely, which would glue words together and
+     never match the map — so turn breaks into spaces before reading. */
+  function keyOf(el) {
+    if (el.innerHTML.indexOf('<br') === -1) return norm(el.textContent);
+    keyScratch.innerHTML = el.innerHTML.replace(/<br\s*\/?>/gi, ' ');
+    return norm(keyScratch.textContent);
+  }
+
+  const isGu = () => document.documentElement.dataset.lang === 'gu';
+
+  /* Short strings used by JS-generated text. */
+  function t(key) {
+    return isGu() && GU[key] ? GU[key] : key;
+  }
+  /* The schedule already carries its own Gujarati names in data.js. */
+  const sName = s => (isGu() && s.nameGu) ? s.nameGu : s.name;
+  /* "in 1 hr 20 min" / "1 કલાક 20 મિનિટ પછી" — the qualifier moves to the end. */
+  function fmtIn(h, m) {
+    const span = (h ? h + ' ' + t('hr') + ' ' : '') + m + ' ' + t('min');
+    return isGu() ? span + ' પછી' : 'in ' + span;
+  }
+
+  function translatable(el) {
+    /* Already-Gujarati content, and the paired EN/GU spans, are left alone. */
+    if (el.classList.contains('gu')) return false;
+    if (el.hasAttribute('data-en') || el.hasAttribute('data-gu')) return false;
+    if (el.querySelector('[data-en],[data-gu]')) return false;
+    if (el.closest('.gu')) return false;
+    return true;
+  }
+
+  function applyLang(lang) {
+    /* Going back to English is just an undo of what we swapped. */
+    if (lang !== 'gu') {
+      swapped.forEach(el => {
+        if (en0.has(el)) { el.innerHTML = en0.get(el); en0.delete(el); delete el.dataset.i18n; }
+      });
+      swapped.length = 0;
+      /* The cached English innerHTML was captured AFTER word-splitting, so it
+         comes back already split — re-splitting it would swallow the spaces
+         between the word spans. Just mark it revealed again. */
+      $$('.kinetic').forEach(el => el.classList.add('is-in'));
+      paintIcons(document);
+      return;
+    }
+    const gu = true;
+    const candidates = $$(SEL).filter(translatable);
+
+    /* Picking which element to replace, given that matches nest:
+       1. If a descendant matches the SAME key, it is a pure wrapper
+          (<li><a>text</a></li>, or <a><svg><span>text</span></a>) — let the
+          inner one win, so the link and its icon survive.
+       2. Otherwise the outermost match wins, because values are authored per
+          paragraph/heading and carry their own inline markup. An inline
+          <strong> inside a translated paragraph must not be replaced too. */
+    const matched = candidates.filter(el => GU[keyOf(el)] || en0.has(el));
+    const keyed = new Map(matched.map(el => [el, keyOf(el)]));
+    const inner = matched.filter(el =>
+      !matched.some(o => o !== el && el.contains(o) && keyed.get(o) === keyed.get(el)));
+    const chosen = inner.filter(el => !inner.some(o => o !== el && o.contains(el)));
+
+    chosen.forEach(el => {
+      if (en0.has(el)) return;
+      const key = keyOf(el);
+      if (!GU[key]) return;
+      en0.set(el, el.innerHTML);
+      swapped.push(el);
+      /* Buttons and links carry decoration before or after their label — an
+         icon, an accordion chevron. Anything that holds no text is carried
+         across, rather than repeating icon markup in every translation. */
+      const kids = Array.from(el.childNodes);
+      const isIcon = n => n.nodeType === 1 && !n.textContent.trim();
+      const isText = n => n.nodeType === 3 ? !!n.textContent.trim() : (n.nodeType === 1 && !isIcon(n));
+      const first = kids.findIndex(isText);
+      const last  = kids.reduce((acc, n, i) => (isText(n) ? i : acc), -1);
+      const lead  = kids.filter((n, i) => isIcon(n) && (first === -1 || i < first));
+      const tail  = kids.filter((n, i) => isIcon(n) && last !== -1 && i > last);
+      const html  = n => (n.outerHTML || '');
+      el.innerHTML = lead.map(html).join('') + (lead.length ? ' ' : '') +
+                     GU[key] + (tail.length ? ' ' : '') + tail.map(html).join('');
+      el.dataset.i18n = 'gu';
+    });
+    void gu;
+
+    /* Headings are word-split for the kinetic effect, which destroys the
+       text we match on — re-split whatever we just replaced. */
+    $$('.kinetic').forEach(el => { if (el.dataset.i18n === 'gu') delete el.dataset.split; });
+    splitText();
+    $$('.kinetic').forEach(el => el.classList.add('is-in'));
+    paintIcons(document);
+  }
+
   function initLang() {
     const btn = $('.lang-btn');
     const apply = lang => {
@@ -156,6 +264,8 @@
         btn.textContent = lang === 'gu' ? 'EN' : 'ગુજ';
         btn.setAttribute('aria-label', lang === 'gu' ? 'Switch to English' : 'ગુજરાતીમાં જુઓ');
       }
+      applyLang(lang);
+      refreshLive();
       try { localStorage.setItem('derasar.lang', lang); } catch (e) {}
     };
     let saved = 'en';
@@ -164,7 +274,7 @@
     if (btn) btn.addEventListener('click', () => {
       const next = document.documentElement.dataset.lang === 'gu' ? 'en' : 'gu';
       apply(next);
-      toast(next === 'gu' ? 'ગુજરાતીમાં' : 'Switched to English');
+      toast(next === 'gu' ? 'હવે ગુજરાતીમાં' : 'Switched to English');
     });
   }
 
@@ -221,7 +331,12 @@
     return { s: D.schedule[0], in: toMins(D.schedule[0].t) + 1440 - mins };
   }
 
-  /* ---------- live status & date -------------------------------------- */
+  /* ---------- live status & date --------------------------------------
+     These strings are regenerated every 30s, so they are translated
+     through t() rather than by the DOM walk.                           */
+  const liveTicks = [];
+  function refreshLive() { liveTicks.forEach(fn => fn()); }
+
   function initStatus() {
     const pills = $$('[data-status-pill]'), dates = $$('[data-today]');
     if (!pills.length && !dates.length) return;
@@ -230,11 +345,14 @@
       pills.forEach(p => {
         p.dataset.state = st.open ? 'open' : 'closed';
         p.innerHTML = '<span class="status__dot"></span><span>' +
-          (st.open ? 'Open for darshan' : 'Sanctum resting') +
-          ' &middot; ' + esc(nx.s.name) + ' at ' + pretty(nx.s.t) + '</span>';
+          esc(t(st.open ? 'Open for darshan' : 'Sanctum resting')) +
+          ' &middot; ' + esc(sName(nx.s)) +
+          (isGu() ? ' ' + pretty(nx.s.t) + ' ' + esc(t('at'))
+                  : ' ' + esc(t('at')) + ' ' + pretty(nx.s.t)) + '</span>';
       });
       dates.forEach(d => { d.textContent = n.dateLabel; });
     };
+    liveTicks.push(tick);
     tick();
     setInterval(tick, 30000);
   }
@@ -260,8 +378,9 @@
       const nx = nextEvent(istNow().mins);
       $$('.timings__row', host).forEach(r => r.classList.toggle('is-next', r.dataset.key === nx.s.key));
       const h = Math.floor(nx.in / 60), m = nx.in % 60;
-      out.textContent = nx.s.name + ' — in ' + (h ? h + ' hr ' : '') + m + ' min';
+      out.textContent = sName(nx.s) + ' — ' + fmtIn(h, m);
     };
+    liveTicks.push(tick);
     tick();
     setInterval(tick, 30000);
   }
@@ -451,10 +570,11 @@
       num.textContent = inMala;
       const malas = Math.floor(count / BEADS);
       mala.innerHTML = malas
-        ? '<strong>' + malas + '</strong> mala' + (malas > 1 ? 's' : '') + ' complete &middot; ' + count + ' japa in all'
-        : 'Tap the bead for each Navkar. One mala is 108.';
+        ? '<strong>' + malas + '</strong> ' + t('mala complete') + ' &middot; ' + count + ' ' + t('japa in all')
+        : t('Tap the bead for each Navkar. One mala is 108.');
       try { localStorage.setItem(KEY, String(count)); } catch (e) {}
     };
+    liveTicks.push(draw);
     $('.japa__tap', root).addEventListener('click', () => {
       count++;
       draw();
@@ -569,21 +689,34 @@
     });
   }
 
-  /* ---------- kinetic headlines --------------------------------------- */
-  function splitText() {
-    $$('.kinetic').forEach(el => {
-      if (el.dataset.split) return;
-      const words = el.textContent.trim().split(/\s+/);
+  /* ---------- kinetic headlines ---------------------------------------
+     Walks child nodes rather than reading textContent, so an author can
+     put a <br> in the heading and keep the line break they wanted.      */
+  function splitText(root) {
+    $$('.kinetic', root || document).forEach(el => {
+      /* Never split twice: the second pass would drop the whitespace text
+         nodes sitting between the word spans. */
+      if (el.dataset.split || el.querySelector('.w')) return;
+      const src = Array.from(el.childNodes);
       el.textContent = '';
-      words.forEach((w, i) => {
-        const span = document.createElement('span');
-        span.className = 'w';
-        const inner = document.createElement('i');
-        inner.textContent = w;
-        inner.style.setProperty('--wd', (i * 55) + 'ms');
-        span.appendChild(inner);
-        el.appendChild(span);
-        if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
+      let i = 0;
+      src.forEach(node => {
+        if (node.nodeType === 1 && node.tagName === 'BR') {
+          el.appendChild(document.createElement('br'));
+          return;
+        }
+        const text = (node.textContent || '').replace(/\s+/g, ' ');
+        if (!text.trim()) return;
+        text.trim().split(' ').forEach((w, n, arr) => {
+          const span = document.createElement('span');
+          span.className = 'w';
+          const inner = document.createElement('i');
+          inner.textContent = w;
+          inner.style.setProperty('--wd', (i++ * 55) + 'ms');
+          span.appendChild(inner);
+          el.appendChild(span);
+          if (n < arr.length - 1) el.appendChild(document.createTextNode(' '));
+        });
       });
       el.dataset.split = '1';
     });
@@ -738,12 +871,14 @@
   /* ---------- boot ---------------------------------------------------- */
   function boot() {
     initChrome();
-    initLang(); initMode(); initHeader();
+    initMode(); initHeader();
+    /* Render everything data-driven FIRST, so the language pass sees it. */
     initTimings(); initStatus(); initHero();
     initGallery(); initReviews(); initFestivals(); initSevas(); initMarquee();
     initJapa(); initTabs(); initAccordion(); initForms();
     paintIcons(document);
     splitText();
+    initLang();
     initReveal(); initCounters(); initTilt(); initParallax(); initRipple();
     initScrollChrome();
   }
