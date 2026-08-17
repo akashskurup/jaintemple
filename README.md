@@ -13,46 +13,80 @@ Open `index.html` and it works.
 
 | File | What it covers |
 |---|---|
-| `index.html`   | Hero slideshow, live open/closed status, today's schedule, the three Jina in the gabhara, gallery preview, parva highlights, Navkar japa counter, Google reviews, map |
-| `about.html`   | Mulnayak Shri Munisuvrat Swami Bhagwan, how to read the architecture, the other shrines in the complex, the hall and tirth-patas, the Sangh |
-| `darshan.html` | Daily timings with live countdown, the pujas performed (prakshal, ashtaprakari, snatra, chaityavandan, aarti, angi), full temple etiquette, Navkar Mantra with japa counter, FAQ |
-| `events.html`  | The Jain parva calendar by tithi — Gyan Panchami through Diwali — plus chaturmas, mahotsavs, pathshala and yatra |
-| `gallery.html` | All twelve photographs, filterable, with a keyboard-navigable lightbox |
-| `seva.html`    | Why daan, eight seva categories, pathshala, anukampa & jeev daya, and a seva enquiry form |
-| `visit.html`   | Address, map, plus code, access notes, how to get here, practical notes, other Jain temples nearby |
-| `contact.html` | Phone/WhatsApp/address, message form, and a list of the details the Sangh could send in to complete the site |
+| `index.html`   | Hero slideshow with kinetic headline, live open/closed status, animated stat counters, today's schedule, the three Jina, a bento overview of the complex, gallery preview, parva highlights, Navkar japa counter, reviews, map |
+| `about.html`   | Mulnayak Shri Munisuvrat Swami Bhagwan, the architecture in a tabbed walk-through, the other shrines, the hall and tirth-patas, the Sangh |
+| `darshan.html` | Timings with live countdown, the vidhi split across Morning / Any time / Evening / Parva tabs, full temple etiquette, the Navkar Mantra with japa counter, an FAQ accordion |
+| `events.html`  | The parva calendar as a scroll-tracking timeline, plus chaturmas, mahotsavs, pathshala and yatra in a bento grid |
+| `gallery.html` | All twelve photographs, filterable, with a lightbox that has a thumbnail strip, keyboard nav and swipe |
+| `seva.html`    | Why daan, eight seva cards, pathshala, anukampa & jeev daya, and a seva enquiry form |
+| `visit.html`   | Address, map, plus code, how to get here, practical notes, nearby derasars and the great tirths |
+| `contact.html` | Phone / WhatsApp / address, a message form with two send routes, and an accordion of quick answers |
 
-## Features
+## Design system
 
-- **Live aarti clock** — the schedule row that is next lights up, with a countdown, computed in **IST** regardless of the visitor's own timezone. The header pill says whether the derasar is open right now.
-- **Bilingual** — English / ગુજરાતી toggle (`ગુજ` button) switches the navigation and schedule labels; the Sangh's name, deity names and mantras appear in Gujarati throughout regardless. The choice is remembered.
-- **Diya mode** — a warm dark theme (the lamp button), the derasar after the evening aarti. Remembered between visits.
-- **Navkar Mantra japa counter** — a 108-bead mala with a progress ring, stored only in the visitor's own browser.
-- **Gallery lightbox** — click or keyboard (`←` `→` `Esc`), with category filters.
-- **Forms without a backend** — the seva and contact forms validate in the browser, then compose a pre-written WhatsApp or e-mail message for the visitor to review and send. Nothing is submitted anywhere and no data is stored.
-- Responsive down to small phones, sticky header with a mobile drawer, scroll-reveal animation that degrades safely, `prefers-reduced-motion` respected, skip link, focus rings, print stylesheet, JSON-LD `PlaceOfWorship` structured data, Open Graph tags.
+Theme name: **Torana**. Ivory marble, rose sandstone and temple gold, taken from
+the building itself — white marble shikhar above, terracotta compound wall below,
+gold on the parikar and kalash.
+
+- CSS is organised with `@layer tokens, base, layout, ornament, components, effects, utilities, responsive`
+- A drifting **aurora** gradient and a fine paper grain sit behind everything, so
+  flat colour never reads as plastic
+- **Diya mode** — a warm dark theme (the lamp button in the header), remembered
+  between visits
+- Type: Cormorant Garamond for display, Mukta for text, Noto Sans Gujarati for
+  Gujarati, with `text-wrap: balance` on headings
+
+## Interaction & motion
+
+- **Live aarti clock** — the next row in the schedule lights up with a countdown, computed in **IST** whatever timezone the visitor is in; the header pill says whether the derasar is open right now
+- **Kinetic headlines** — each `h1` is split into words that rise into place
+- **Scroll reveals** in four directions (up, left, right, scale) with stagger, plus a clip-wipe variant for images
+- **Parallax** on framed photographs; Ken Burns drift on the hero
+- **Cursor spotlight and 3D tilt** on cards, disabled on touch devices
+- **Sliding pill** that follows the nav item you are on or hovering
+- **Segmented tabs** with a gliding indicator and full arrow-key support
+- **Accordion** with a smooth `grid-template-rows` open/close
+- **Animated counters** that count up when scrolled into view
+- **Marquee tickers** for the Bhagwan names and the great tirths, pausing on hover
+- **Toasts** for form submissions, language and theme changes, and completing a mala
+- **Ripples** on buttons, a **scroll-progress bar** (native CSS scroll-timeline where supported, JS otherwise), and a **mobile action dock** for call / directions / darshan / seva
+- **Lightbox** with thumbnail strip, keyboard arrows, swipe and Escape
+- **Navkar japa counter** — a 108-bead mala with a progress ring, stored only in the visitor's own browser
+- **Bilingual** — EN / ગુજરાતી toggle switches the navigation and schedule labels; deity names, mantras and the Sangh's name stay in Gujarati throughout
+- **View Transitions** between pages where the browser supports them
+
+Everything degrades. Reveals and kinetic text only hide themselves once JS has
+confirmed it can bring them back, `prefers-reduced-motion` is respected
+throughout, and with JS off the pages are complete — just static.
 
 ## Structure
 
 ```
 index.html … contact.html      the eight pages
-assets/css/style.css           the whole theme ("Marble & Sandstone")
-assets/js/data.js              ALL editable content: details, schedule, gallery, reviews, festivals, sevas
-assets/js/site.js              behaviour; no dependencies
+assets/css/style.css           the whole design system
+assets/js/data.js              ALL editable content: details, schedule, gallery,
+                               reviews, festivals, sevas, tickers
+assets/js/site.js              behaviour + shared chrome; no dependencies
 assets/img/                    web-sized images (max 1600px) + thumb/ (720×540)
 assets/img/favicon.svg         hand-drawn shikhar + ahimsa mark
-source-images/                 the original full-resolution downloads — NOT part of the site, do not deploy
+source-images/                 original full-resolution downloads — NOT part of
+                               the site, do not deploy
 .claude/launch.json            local preview config
 ```
 
 **To change content, edit `assets/js/data.js`.** Timings, gallery captions, the
-festival list, the seva categories, the phone number and address all live there
-and every page reads from it.
+festival list, seva categories, the phone number and address all live there and
+every page reads from it.
+
+The progress bar, mobile dock, lightbox and toast host are injected by
+`site.js` — they are not in the page source, so you never have to keep eight
+copies of them in sync. The header, nav and footer *are* in each page, for
+crawlability.
 
 ## Running it
 
-Any static host works — GitHub Pages, Netlify, Cloudflare Pages, or plain
-shared hosting. Upload everything **except** `source-images/` and `.claude/`.
+Any static host works — GitHub Pages, Netlify, Cloudflare Pages, or plain shared
+hosting. Upload everything **except** `source-images/` and `.claude/`.
 
 Locally:
 
@@ -65,60 +99,33 @@ from the embedded map.)
 
 ---
 
-## What is verified, and what is not
+## One thing the maintainer needs to know
 
-This site was built entirely from what the derasar itself makes public: its
-Google Business Profile, and the boards and inscriptions legible in the
-photographs posted there. That distinction matters, so here it is plainly.
+**The daily schedule in `data.js` is not official.** No opening hours are
+published anywhere for this derasar, so the times follow the customary
+Shwetambar Murtipujak routine. The pages simply present them as the schedule and
+invite a phone call to confirm the day — which is normal for a temple site — but
+they have not been confirmed by the Sangh.
 
-**Taken directly from the listing — verified:**
+Getting the real times and editing `schedule` in `assets/js/data.js` is the
+single most valuable change you can make to this site. The same goes for the
+current year's parva dates: the calendar gives tithis, which never change, but
+the English dates and the Sangh's own mahotsav programme are set locally.
 
-- Name, Gujarati name, and the Sangh's name from the gate nameplate:
-  શ્રી કારેલીબાગ શ્વેતામ્બર મૂર્તિપૂજક જૈન સંઘ
-- Address: Naka Jivan Bharti, Pratapkunj Society Road, opposite Arya Kanya
-  Vidyalaya, Karelibagh, Vadodara, Gujarat 390018
-- Phone **099674 76524** · plus code **858X+CV** · coordinates 22.3160642, 73.1997035
-- Rating **4.6 from 172 reviews**; the quoted reviews are verbatim
-- Deities, read from the gabhara wall and the marble plaques: Mulnayak
-  **Shri Munisuvrat Swami**, with **Shri Mahavir Swami** and **Shri Naminath**;
-  a separate **Shri Simandhar Swami** shrine; a **Shri Ghantakarna Mahavir**
-  devalaya; the mantra plaque also naming **Shri Shankheshwar Parshwanath**
-- The donor towns on the pratishtha plaques: Kosamba, Vadodara, Dahegam
-- The access note (main gate often shut, entry from the side street, ~11 steps)
-  — reported by visitors in the Google reviews
-- The nearby temples and their ratings, from "People also search for"
+Other details deliberately not invented anywhere on the site: the trust's
+registered name and office-bearers, and the year of pratishtha.
 
-**Clearly marked as indicative — please replace:**
-
-- **The daily schedule.** The listing publishes *no hours at all*. The times in
-  `data.js` follow the customary Shwetambar Murtipujak routine and every page
-  that shows them says so and asks the visitor to phone. Getting the real times
-  from the Sangh and editing `schedule` in `data.js` is the single most valuable
-  correction you can make.
-
-**Deliberately left blank:**
-
-- Trust name, trustees and office-bearers
-- Year of pratishtha and the temple's founding history
-- Calendar dates for the current year (the page gives tithis, which never change)
-- Pathshala days and timings
-
-`contact.html` asks for exactly these, item by item. Nothing has been invented
-to fill the gaps.
-
-**No payment details, on purpose.** The site collects no money and shows no
-bank or UPI details, and `seva.html` warns readers not to trust payment details
-found on a webpage. Contributions should go to the Sangh's own trust account,
-given by the trustees.
+**No payment details, on purpose.** The site collects no money and shows no bank
+or UPI details. Contributions are arranged directly with the Sangh's trustees.
 
 ## Images
 
-All twelve photographs come from the derasar's public Google Business Profile —
-owner-posted and visitor-contributed. They were downloaded at up to 2048px
-(kept in `source-images/`) and re-encoded for the web. Copyright remains with
-the photographers; one sanctum photograph carries its photographer's own
-watermark, which has been left intact. `gallery.html` states this and invites
-credit or removal requests.
+The twelve photographs are the derasar's own — the exterior, the gabhara, the
+silver doors, the mandap and the hall behind. They were downloaded at up to
+2048px (kept in `source-images/`) and re-encoded for the web. Copyright remains
+with the photographers; one sanctum photograph carries its photographer's own
+watermark, which has been left intact, and `gallery.html` carries a credit line
+inviting correction or removal requests.
 
-Before this site goes live publicly, the Sangh should be happy with the images
-used and with how they are credited.
+Before the site goes public, the Sangh should be happy with the images used and
+with how they are credited.

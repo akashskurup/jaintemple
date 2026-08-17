@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Photo Gallery — the derasar in pictures | Shree Munisuvrat Swami Jain Derasar</title>
 <meta name="description" content="Photographs of Shree Munisuvrat Swami Jain Derasar, Karelibaug, Vadodara — the shikhar-bandhi facade, the Mulnayak in the gabhara, the silver doors and rangmandap, the Ghantakarna Mahavir mandap and the tirth-pata hall.">
-<meta name="theme-color" content="#7a2739">
+<meta name="theme-color" content="#7d2739">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,14 +20,14 @@
     <a href="tel:+919967476524"><i data-icon="phone"></i> 099674 76524</a>
     <a href="https://maps.app.goo.gl/kbTzvgjWpJrhCLjv8" target="_blank" rel="noopener"><i data-icon="pin"></i> Karelibaug, Vadodara</a>
     <span class="spacer"></span>
-    <span data-today></span>
+    <span class="topbar__date" data-today></span>
   </div>
 </div>
 
 <header class="site-head">
   <div class="wrap">
     <a class="brand" href="index.html">
-      <img class="brand__mark" src="assets/img/favicon.svg" alt="" width="46" height="46">
+      <img class="brand__mark" src="assets/img/favicon.svg" alt="" width="48" height="48">
       <span class="brand__txt">
         <span class="brand__name">Shree Munisuvrat Swami</span>
         <span class="brand__sub">શ્રી મુનિસુવ્રત સ્વામી જૈન દેરાસર · કારેલીબાગ</span>
@@ -60,30 +60,21 @@
     <img src="assets/img/hero-facade.jpg" alt="The facade of the derasar in white marble and rose sandstone" width="2000" height="1000">
     <div class="wrap pagehead__inner">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span>Gallery</span></nav>
-      <h1>Photo Gallery</h1>
-      <p>Twelve photographs of the derasar — outside and in. Click any one to open it full size; use the arrow keys to move through them.</p>
+      <h1 class="kinetic">Photo Gallery</h1>
+      <p>Twelve photographs of the derasar, outside and in. Click any one to open it full size; use the arrow keys, or swipe, to move through them.</p>
     </div>
   </section>
   <div class="frieze"></div>
 
   <section class="section">
     <div class="wrap">
-      <div class="filters">
+      <div class="filters center">
         <button class="chip" type="button" data-filter="all" aria-pressed="true">All photographs</button>
         <button class="chip" type="button" data-filter="architecture" aria-pressed="false">Architecture &amp; exterior</button>
         <button class="chip" type="button" data-filter="sanctum" aria-pressed="false">The gabhara</button>
         <button class="chip" type="button" data-filter="interior" aria-pressed="false">Interiors &amp; shrines</button>
       </div>
       <div class="gallery" data-gallery></div>
-
-      <div class="notice notice--plain narrow" style="margin-top:44px">
-        <i data-icon="info"></i>
-        <p class="mb-0"><strong>About these images.</strong> Every photograph on this website was taken from the derasar’s own public Google Business Profile — the owner-posted photographs and those contributed by visitors. They are reproduced here only to represent the derasar itself. Copyright stays with the photographers; one of the sanctum images carries a photographer’s own watermark, which has been left intact. If you are a photographer here and would like an image credited differently or removed, please <a href="contact.html">write in</a>.</p>
-      </div>
-
-      <div class="center" style="margin-top:34px">
-        <a class="btn btn--ghost" href="https://maps.app.goo.gl/kbTzvgjWpJrhCLjv8" target="_blank" rel="noopener">See all photographs on Google <i data-icon="arrow"></i></a>
-      </div>
     </div>
   </section>
 
@@ -91,43 +82,36 @@
     <div class="wrap">
       <div class="center">
         <span class="eyebrow">A guide to what you are looking at</span>
-        <h2>Four things worth finding in the photographs</h2>
-        <div class="divider"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4"/></svg></div>
+        <h2>Four things worth finding</h2>
+        <div class="divider"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4"/></svg></div>
       </div>
       <div class="grid g-4">
-        <article class="card reveal">
+        <article class="card card--lift card--tilt" data-reveal>
           <span class="card__ico"><i data-icon="dharma"></i></span>
           <h3>The dharmachakra</h3>
-          <p class="mb-0">Above the gate, between two golden lions — the wheel of dharma, the emblem you will find on the pediment of almost every Jain temple built in this style.</p>
+          <p class="mb-0">Above the gate, between two golden lions — the wheel of dharma, the emblem on the pediment of almost every Jain temple built in this style.</p>
         </article>
-        <article class="card reveal">
+        <article class="card card--lift card--tilt" data-reveal style="--d:90ms">
           <span class="card__ico"><i data-icon="lotus"></i></span>
           <h3>The tortoise</h3>
-          <p class="mb-0">Munisuvrat Swami’s lanchhan is cut into the base of the pedestal, among the lions and attendant figures below the idol. It is small, and it is the sign that identifies which Jina this is.</p>
+          <p class="mb-0">Munisuvrat Swami’s lanchhan, cut into the base of the pedestal among the lions and attendant figures. It is small, and it is the sign that identifies which Jina this is.</p>
         </article>
-        <article class="card reveal">
+        <article class="card card--lift card--tilt" data-reveal style="--d:180ms">
           <span class="card__ico"><i data-icon="kalash"></i></span>
           <h3>Chhatras and inlay</h3>
           <p class="mb-0">The hanging three-tier chhatras painted on the gabhara wall, and the coloured stone inlay — swastik, kalash, lotus, ashtamangal — set into the white marble around them.</p>
         </article>
-        <article class="card reveal">
+        <article class="card card--lift card--tilt" data-reveal style="--d:270ms">
           <span class="card__ico"><i data-icon="book"></i></span>
           <h3>The pratishtha plaques</h3>
           <p class="mb-0">Three marble panels below the idols, written in Gujarati, naming the families from Kosamba, Vadodara and Dahegam who installed each Bhagwan.</p>
         </article>
       </div>
+      <p class="center" style="margin-top:36px;font-size:.86rem;color:var(--ink-faint)">Photographs © their respective photographers. To have an image credited differently or removed, please <a href="contact.html">write in</a>.</p>
     </div>
   </section>
 
 </main>
-
-<div class="lbox" role="dialog" aria-modal="true" aria-label="Photograph viewer">
-  <div class="lbox__stage"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt=""></div>
-  <div class="lbox__bar"><span class="lbox__count"></span><span class="lbox__cap"></span></div>
-  <button class="lbox__btn lbox__prev" type="button" aria-label="Previous photograph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-  <button class="lbox__btn lbox__next" type="button" aria-label="Next photograph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
-  <button class="lbox__btn lbox__close" type="button" aria-label="Close viewer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
-</div>
 
 <footer class="site-foot">
   <div class="wrap">
@@ -136,32 +120,32 @@
         <div class="foot-brand">Shree Munisuvrat Swami Jain Derasar</div>
         <p class="foot-guj">શ્રી કારેલીબાગ શ્વેતામ્બર મૂર્તિપૂજક જૈન સંઘ</p>
         <p style="font-size:.92rem;opacity:.85">Naka Jivan Bharti, Pratapkunj Society Road, Opposite Arya Kanya Vidyalaya, Karelibagh, Vadodara, Gujarat 390018</p>
-        <p style="margin-bottom:0"><a href="tel:+919967476524">099674 76524</a></p>
+        <p class="mb-0"><a href="tel:+919967476524">099674 76524</a></p>
       </div>
       <div>
         <h4>The derasar</h4>
         <ul>
-          <li><a href="about.html"><span data-en>The Derasar</span><span data-gu class="gu">દેરાસર</span></a></li>
-          <li><a href="darshan.html"><span data-en>Darshan</span><span data-gu class="gu">દર્શન</span></a></li>
-          <li><a href="events.html"><span data-en>Parva</span><span data-gu class="gu">પર્વ</span></a></li>
-          <li><a href="gallery.html"><span data-en>Gallery</span><span data-gu class="gu">તસવીરો</span></a></li>
+          <li><a href="about.html">About &amp; architecture</a></li>
+          <li><a href="darshan.html">Darshan, puja &amp; vidhi</a></li>
+          <li><a href="events.html">Parva calendar</a></li>
+          <li><a href="gallery.html">Photo gallery</a></li>
         </ul>
       </div>
       <div>
         <h4>Take part</h4>
         <ul>
-          <li><a href="seva.html"><span data-en>Seva</span><span data-gu class="gu">સેવા</span></a></li>
+          <li><a href="seva.html">Seva &amp; daan</a></li>
           <li><a href="seva.html#pathshala">Pathshala</a></li>
           <li><a href="seva.html#anukampa">Anukampa &amp; jeev daya</a></li>
-          <li><a href="contact.html"><span data-en>Contact</span><span data-gu class="gu">સંપર્ક</span></a></li>
+          <li><a href="contact.html">Contact the Sangh</a></li>
         </ul>
       </div>
       <div>
         <h4>Find us</h4>
         <ul>
-          <li><a href="https://maps.app.goo.gl/kbTzvgjWpJrhCLjv8" target="_blank" rel="noopener">Google Maps listing</a></li>
+          <li><a href="https://maps.app.goo.gl/kbTzvgjWpJrhCLjv8" target="_blank" rel="noopener">Open in Maps</a></li>
           <li><a href="https://www.google.com/maps/dir/?api=1&amp;destination=22.3160642%2C73.1997035" target="_blank" rel="noopener">Directions</a></li>
-          <li><a href="visit.html"><span data-en>Visit</span><span data-gu class="gu">પધારો</span></a></li>
+          <li><a href="visit.html">Travel notes</a></li>
           <li><a href="visit.html#nearby">Other derasars nearby</a></li>
         </ul>
       </div>
@@ -173,7 +157,6 @@
   </div>
 </footer>
 
-<button class="to-top" type="button" aria-label="Back to top"><i data-icon="up"></i></button>
 <script src="assets/js/data.js"></script>
 <script src="assets/js/site.js"></script>
 </body>
