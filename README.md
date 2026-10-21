@@ -84,6 +84,10 @@ The progress bar, mobile dock, lightbox and toast host are injected by
 copies of them in sync. The header, nav and footer *are* in each page, for
 crawlability.
 
+The footer's **Registered details** block (legal name, registered office, phone,
+email, website, tax ID) is part of that duplicated footer — edit it in all eight
+pages together, and keep the label translations in `i18n.js` in step.
+
 ## How the Gujarati translation works
 
 `assets/js/i18n.js` is a single flat map, keyed on the **English text exactly as

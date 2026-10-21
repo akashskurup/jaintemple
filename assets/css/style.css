@@ -1078,6 +1078,16 @@
   .foot-grid li a:hover { translate: 5px 0; }
   .foot-brand { font-family: var(--f-display); font-size: 1.36rem; color: #fff; margin-bottom: 6px; line-height: 1.2; }
   .foot-guj { font-family: var(--f-guj); font-size: .95rem; color: var(--gold-l); }
+  .foot-legal { border-top: 1px solid rgba(234,216,190,.16); padding-block: 26px 28px; }
+  .foot-legal h4 { color: var(--gold-l); font-size: .76rem; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 16px; }
+  .legal-grid {
+    display: grid; gap: 15px 34px; margin: 0; font-size: .86rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  }
+  .legal-grid dt { color: rgba(234,216,190,.55); font-size: .71rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
+  .legal-grid dd { margin: 0; line-height: 1.5; }
+  .legal-grid a { text-decoration: underline; text-decoration-color: rgba(234,216,190,.3); text-underline-offset: 3px; }
+
   .foot-bottom {
     border-top: 1px solid rgba(234,216,190,.16); padding-block: 20px;
     display: flex; flex-wrap: wrap; gap: 10px 26px; align-items: center; justify-content: space-between;

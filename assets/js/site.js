@@ -160,7 +160,7 @@
   const en0 = new WeakMap();                       /* element -> English innerHTML */
   const swapped = [];                              /* elements currently in Gujarati */
   const norm = s => (s || '').replace(/\s+/g, ' ').trim();
-  const SEL = 'h1,h2,h3,h4,p,li,label,button,option,span,small,blockquote,figcaption,strong,em,td,th,a';
+  const SEL = 'h1,h2,h3,h4,p,li,label,button,option,span,small,blockquote,figcaption,strong,em,td,th,dt,dd,a';
   const keyScratch = document.createElement('div');
 
   /* textContent swallows <br> entirely, which would glue words together and

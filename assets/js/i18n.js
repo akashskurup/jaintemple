@@ -47,6 +47,17 @@ window.DERASAR_GU = {
     'નાકા જીવન ભારતી, પ્રતાપકુંજ સોસાયટી રોડ, આર્ય કન્યા વિદ્યાલય સામે, કારેલીબાગ, વડોદરા, ગુજરાત 390018',
   'Shri Karelibaug Shwetambar Murtipujak Jain Sangh': 'શ્રી કારેલીબાગ શ્વેતામ્બર મૂર્તિપૂજક જૈન સંઘ',
 
+  'Registered details': 'નોંધાયેલ વિગતો',
+  'Legal name': 'કાયદેસરનું નામ',
+  'Registered office': 'નોંધાયેલ કાર્યાલય',
+  'Phone': 'ફોન',
+  'Email': 'ઈ-મેલ',
+  'Website': 'વેબસાઇટ',
+  'Tax ID': 'ટૅક્સ ID',
+  'Shree Karelibaug Swetambar Murti Pujak Jain Sangh': 'શ્રી કારેલીબાગ શ્વેતામ્બર મૂર્તિપૂજક જૈન સંઘ',
+  '58/1, Arunoday Society, Alkapuri, Baroda, Gujarat 390005, India':
+    '58/1, અરુણોદય સોસાયટી, અલકાપુરી, વડોદરા, ગુજરાત 390005, ભારત',
+
   /* ---------- live strings used by JS ------------------------------- */
   'Open for darshan': 'દર્શન ખુલ્લાં',
   'Sanctum resting': 'ગભારો બંધ',
